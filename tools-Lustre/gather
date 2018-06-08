@@ -1,0 +1,9 @@
+#!/bin/bash
+ls processed_file | grep GEO | tee GEO_inputlist
+/BIGDATA/nsccgz_pcheng_1/benchmarks/GenBase/tools-Lustre/gdata GEO_inputlist "GEO_merge.txt" $1
+
+ls processed_file | grep GeneMetaData  | tee GM_inputlist
+/BIGDATA/nsccgz_pcheng_1/benchmarks/GenBase/tools-Lustre/gdata GM_inputlist "GM_merge.txt" $1
+
+ls processed_file | grep PatientMetaData  | tee PM_inputlist
+/BIGDATA/nsccgz_pcheng_1/benchmarks/GenBase/tools-Lustre/gdata PM_inputlist "PM_merge.txt" $1

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+echo "--------Made dirs--------"
+mkdir -p "$3"
+/BIGDATA/nsccgz_pcheng_1/benchmarks/GenBase/create_hive_loading_script.sh  $1 $2 $4 > loadscript.sql
+
+id=$5
+# format data for hive
+echo "--------Format data for hive--------"
+if [ ! -e ${processed_data_path}/GEO-$1-$2.txt ] 
+then
+	#Replace datapath for TDMS
+	orig_data_path=$(echo $3 | sed 's/\/home\/condor\/alluxio-data//')
+	processed_data_path=$(echo $4 | sed 's/\/home\/condor\/alluxio-data\//\//')
+	echo "orig_data_path is $orig_data_path"
+	echo "processed_data_path is $processed_data_path"
+
+	echo "have to format data"
+	
+	python /BIGDATA/nsccgz_pcheng_1/benchmarks/GenBase/tools-TDMS/format_data_for_hive.py ${orig_data_path}/GEO-$1-$2-$id.txt $processed_data_path
+	python /BIGDATA/nsccgz_pcheng_1/benchmarks/GenBase/tools-TDMS/format_data_for_hive.py ${orig_data_path}/GeneMetaData-$1-$2-$id.txt $processed_data_path
+	python /BIGDATA/nsccgz_pcheng_1/benchmarks/GenBase/tools-TDMS/format_data_for_hive.py ${orig_data_path}/PatientMetaData-$1-$2-$id.txt $processed_data_path
+	
+	
+
+fi

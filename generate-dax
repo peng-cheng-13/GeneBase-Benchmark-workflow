@@ -1,0 +1,120 @@
+#!/usr/bin/env python
+#Author: Peng Cheng
+#Email: peng_cheng_13@163.com
+
+from __future__ import division
+
+import getpass
+import sys
+import math
+import os
+import re
+import subprocess
+import ConfigParser
+
+from Pegasus.DAX3 import *
+
+
+run_id = sys.argv[1]
+base_dir = sys.argv[2]
+tool_dir = sys.argv[3]
+data_size = int(sys.argv[4])
+binary_file = []
+processed_file = []
+reduce_file = []
+parent_job = []
+child_job = []
+
+# Create a DAX
+dax = ADAG("GenBase")
+
+# Add executables to the DAX-level replica catalog
+e_Generator = Executable(name="data_generator", arch="x86_64", installed=True)
+e_Generator.addPFN(PFN(base_dir + "/" + tool_dir + "/data_generator" , "condorpool"))
+dax.addExecutable(e_Generator)
+
+e_Pre = Executable(name="query_pre", arch="x86_64", installed=True)
+e_Pre.addPFN(PFN(base_dir + "/" + tool_dir + "/query_pre" , "condorpool"))
+dax.addExecutable(e_Pre)
+
+e_Query = Executable(name="query_processsing", arch="x86_64", installed=True)
+e_Query.addPFN(PFN(base_dir + "/" + tool_dir + "/query_processsing" , "condorpool"))
+dax.addExecutable(e_Query)
+
+e_Post = Executable(name="query_post", arch="x86_64", installed=True)
+e_Post.addPFN(PFN(base_dir + "/" + tool_dir + "/query_post" , "condorpool"))
+dax.addExecutable(e_Post)
+
+e_Covar =  Executable(name="covar-spark", arch="x86_64", installed=True)
+e_Covar.addPFN(PFN(base_dir + "/" + tool_dir + "/covar-spark" , "condorpool"))
+dax.addExecutable(e_Covar)
+
+# Add the first createfile job
+j_generator = Job(e_Generator)
+outname_1 = "GEO-" + "${DATA_SIZE}" + "-" + "${DATA_SIZE}" + ".txt"
+outname_2 = "GO-" + "${DATA_SIZE}" + "-" + "${DATA_SIZE}" + ".txt"
+outname_3 = "PatientMetaData-" + "${DATA_SIZE}" + "-" + "${DATA_SIZE}" + ".txt"
+g_out1 = File(outname_1)
+g_out2 = File(outname_2)
+g_out3 = File(outname_3)
+j_generator.addArguments("${DATA_SIZE}","${DATA_SIZE}","${INTER_DIR}/scratch/${RUN_ID}")
+j_generator.uses(g_out1, link=Link.OUTPUT, transfer=False)
+j_generator.uses(g_out2, link=Link.OUTPUT, transfer=False)
+j_generator.uses(g_out3, link=Link.OUTPUT, transfer=False)
+dax.addJob(j_generator)
+
+# Add data pre-processing job, foramting data for hive
+j_pre = Job(e_Pre)
+pre_out1 = File("P-"+outname_1)
+pre_out2 = File("P-"+outname_2)
+pre_out3 = File("P-"+outname_3)
+j_pre.addArguments("${DATA_SIZE}","${DATA_SIZE}","${INTER_DIR}/scratch/${RUN_ID}","${INTER_DIR}/scratch/${RUN_ID}/processed_file")
+# j_pre.profile(Namespace.CONDOR , "requirements", "machine == \"cn17634-enp5s0\"")
+j_pre.uses(g_out1, link=Link.INPUT)
+j_pre.uses(g_out2, link=Link.INPUT)
+j_pre.uses(g_out3, link=Link.INPUT)
+j_pre.uses(pre_out1, link=Link.OUTPUT, transfer=False)
+j_pre.uses(pre_out2, link=Link.OUTPUT, transfer=False)
+j_pre.uses(pre_out3, link=Link.OUTPUT, transfer=False)
+dax.addJob(j_pre)
+dax.depends(parent=j_generator, child=j_pre)
+
+
+# Add qurey_processing job
+j_query = Job(e_Query)
+query_outname = "GEO-" + "${DATA_SIZE}" + "${DATA_SIZE}" + "-covar.txt"
+query_out = File(query_outname)
+j_query.addArguments("${DATA_SIZE}","${DATA_SIZE}","${INTER_DIR}/scratch/${RUN_ID}/processed_file")
+j_query.profile(Namespace.CONDOR , "requirements", "machine == \"cn17635-ens4\"")
+j_query.uses(pre_out1, link=Link.INPUT)
+j_query.uses(pre_out2, link=Link.INPUT)
+j_query.uses(pre_out3, link=Link.INPUT)
+j_query.uses(query_out, link=Link.OUTPUT, transfer=False)
+dax.addJob(j_query)
+dax.depends(parent=j_pre, child=j_query)
+
+# Add post-processing job, formating data for spark
+j_post = Job(e_Post)
+post_outname = "GEO-" + "${DATA_SIZE}" + "${DATA_SIZE}" + "-covar.txt_mahout"
+post_out = File(post_outname)
+j_post.addArguments("${DATA_SIZE}","${DATA_SIZE}","${INTER_DIR}/scratch/${RUN_ID}/processed_file")
+j_post.uses(query_out, link=Link.INPUT)
+j_post.uses(post_out, link=Link.OUTPUT, transfer=False)
+dax.addJob(j_post)
+dax.depends(parent=j_query, child=j_post)
+
+
+# Add covar-spark job
+j_covar = Job(e_Covar)
+covar_outname = "processed_file/spark_input_result/part-00000"
+covar_out = File(covar_outname)
+j_covar.addArguments("${DATA_SIZE}","${DATA_SIZE}","${INTER_DIR}/scratch/${RUN_ID}/processed_file")
+j_covar.uses(post_out, link=Link.INPUT)
+j_covar.uses(covar_out, link=Link.OUTPUT, transfer=True)
+dax.addJob(j_covar)
+dax.depends(parent=j_post, child=j_covar)
+
+# Write the DAX to a file
+f = open("dag.xml","w")
+dax.writeXML(f)
+f.close()

@@ -1,0 +1,4 @@
+#!/bin/bash
+hdfs_data_path=$(echo $3 | sed 's/\/home\/condor\/alluxio-data//')
+echo $hdfs_data_path
+$SPARK_PATH /BIGDATA/nsccgz_pcheng_1/benchmarks/GenBase/tools-TDMS/genbase-spark.jar  -master=spark://cn17638-enp5s0:7077 -app=covar -inputFile=${hdfs_data_path}

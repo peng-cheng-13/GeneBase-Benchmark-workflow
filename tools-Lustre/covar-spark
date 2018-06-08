@@ -1,0 +1,39 @@
+#!/bin/bash
+set -e
+if [ -e "/home/condor/alluxio-data/tmp/spark_input" ]
+then
+    rm -rf /home/condor/alluxio-data/tmp/spark_input
+    rm -rf /home/condor/alluxio-data/tmp/spark_input_result
+fi
+start_time=`expr $(date +%s%N) / 1000000`
+if [ ! -e /home/condor/alluxio-data/tmp/spark_input ]
+then
+	mkdir /home/condor/alluxio-data/tmp/spark_input
+	cp $3/../spark_input/* /home/condor/alluxio-data/tmp/spark_input/
+else
+	rm -f /home/condor/alluxio-data/tmp/spark_input/*
+	cp $3/../spark_input/* /home/condor/alluxio-data/tmp/spark_input/
+fi
+end_time=`expr $(date +%s%N) / 1000000`
+echo "Time for loading data to HDFS: $(($end_time - $start_time)) ms"
+
+hdfs_data_path=$(echo $3 | sed 's/\/home\/condor\/alluxio-data//')
+echo $hdfs_data_path
+
+$SPARK_PATH /BIGDATA/nsccgz_pcheng_1/benchmarks/GenBase/tools-Lustre/genbase-spark.jar  -master=spark://cn17638-enp5s0:7077 -app=covar -inputFile=/tmp/spark_input
+
+if [ -e "$3/GEO-5000-5000-covar.txt_mahout_result" ]
+then
+  rm -rf $3/GEO-5000-5000-covar.txt_mahout_result
+fi
+start_time=`expr $(date +%s%N) / 1000000`
+#/home/condor/alluxio/bin/alluxio fs copyToLocal "/tmp/GEO-$1-$2-covar.txt_mahout_result" $3/GEO-$1-$2-covar.txt_mahout_result
+if [ -e $3/../spark_input_result ]
+then
+rm -rf $3/../spark_input_result
+fi
+cp -r /home/condor/alluxio-data/tmp/spark_input_result  $3/../
+end_time=`expr $(date +%s%N) / 1000000`
+echo "Time for Transfering output to Lustre: $(($end_time - $start_time)) ms"
+chmod 777 $3/../spark_input_result
+chmod 666 $3/../spark_input_result/*

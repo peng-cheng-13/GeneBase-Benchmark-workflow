@@ -1,0 +1,55 @@
+#!/bin/bash
+
+set -e
+
+    # Set environments
+    export PYTHONPATH=`pegasus-config --python`
+    export RUN_ID=GenBase-`date +'%s'`
+    #export INTER_DIR=/home/condor/alluxio-data/workflows/$RUN_ID
+    export INTER_DIR=/BIGDATA/nsccgz_pcheng_1/workflows/$RUN_ID
+    export RUN_DIR=/BIGDATA/nsccgz_pcheng_1/workflows/$RUN_ID
+    #base_dir, the home dir of Binary-tree workflow
+    BASE_DIR=`pwd`
+    
+   
+    #tool_dir, the dir that contains the task files written in different langerages(TMDS , Lustre)
+    TOOL_DIR=tools-Lustre
+    #TOOL_DIR=tools-TDMS
+    
+    
+    #data size, num of rows/cols of data matrix 
+    export DATA_SIZE=5000
+
+
+
+    # generate the dax
+    ./generate-dax-p $RUN_ID  $BASE_DIR $TOOL_DIR $DATA_SIZE
+    #./generate-dax-da $RUN_ID $BASE_DIR $TOOL_DIR $DATA_SIZE
+
+    #create scratch dir
+    mkdir -p $RUN_DIR/outputs
+    mkdir -p $RUN_DIR/workflow/$RUN_ID
+    #mkdir  $INTER_DIR
+    mkdir  $INTER_DIR/scratch
+    mkdir $INTER_DIR/scratch/$RUN_ID
+ 
+  
+    # create tar dir 
+    mkdir -p $RUN_DIR/interdata/$RUN_ID
+    chmod -R 777 $RUN_DIR
+     
+
+    # plan and submit the  workflow
+    echo
+    pegasus-plan \
+        --conf pegasus.properties \
+        --relative-dir $RUN_ID \
+	--output-site condorpool \
+        --staging-site condorpool \
+	--sites condorpool \
+        --cleanup none \
+        --dir $RUN_DIR/workflow \
+        --dax dag.xml \
+        --submit
+
+

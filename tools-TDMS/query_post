@@ -1,0 +1,25 @@
+#!/bin/bash
+set -e
+#processed_data_path=$(echo $3 | sed 's/\/home\/condor\/alluxio-data//')
+processed_data_path=$3
+local_table_path=/BIGDATA/nsccgz_pcheng_1/tmp/hive_out
+#get outputtable list
+rm -rf $local_table_path/.*crc #remove useless file
+rm -rf $local_table_path/.hive* #remove useless file
+rm -f ${3}/../query_inputlist
+#ls $local_table_path | tee query_inputlist #get the input file list
+#/BIGDATA/nsccgz_pcheng_1/benchmarks/GenBase/tools-Lustre/gdata query_inputlist "GEO-$1-$2-covar.txt" "/BIGDATA/nsccgz_pcheng_1/tmp/hive_out"
+
+echo "processed_data_path is $processed_data_path"
+echo "--------Format data for mahout--------"
+if [ ! -e ${3}/../spark_input ]; then
+	mkdir ${3}/../spark_input
+        #python /BIGDATA/nsccgz_pcheng_1/benchmarks/GenBase/format_data_for_mahout.py "/BIGDATA/nsccgz_pcheng_1/tmp/hive_out/GEO-$1-$2-covar.txt" "${processed_data_path}"
+	cp /BIGDATA/nsccgz_pcheng_1/tmp/hive_out/0000* ${processed_data_path}/../spark_input/
+else
+	rm -f ${3}/../spark_input
+	#python /BIGDATA/nsccgz_pcheng_1/benchmarks/GenBase/format_data_for_mahout.py "/BIGDATA/nsccgz_pcheng_1/tmp/hive_out/GEO-$1-$2-covar.txt" "${processed_data_path}"
+	#cp /BIGDATA/nsccgz_pcheng_1/tmp/hive_out/GEO-$1-$2-covar.txt ${processed_data_path}/GEO-$1-$2-covar.txt_mahout
+	cp /BIGDATA/nsccgz_pcheng_1/tmp/hive_out/0000* ${processed_data_path}/../spark_input/
+fi
+

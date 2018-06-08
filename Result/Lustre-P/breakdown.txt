@@ -1,0 +1,41 @@
+
+# Transformation - name of the transformation.
+# Count          - the number of times the invocations corresponding to
+#                  the transformation was executed.
+# Succeeded      - the count of the succeeded invocations corresponding
+#                  to the transformation.
+# Failed         - the count of the failed invocations corresponding to
+#                  the transformation.
+# Min(sec)       - the minimum invocation runtime value corresponding
+#                  to the transformation.
+# Max(sec)       - the maximum invocation runtime value corresponding
+#                  to the transformation.
+# Mean(sec)      - the mean of the invocation runtime corresponding
+#                  to the transformation.
+# Total(sec)     - the cumulative of invocation runtime corresponding
+#                  to the transformation.
+
+# c0154592-8c81-4d44-b938-765d2d1a76b9 (GenBase)
+Transformation           Count     Succeeded Failed  Min       Max       Mean           Total     
+covar-spark              1         1         0       216.566   216.566   216.566        216.566   
+dagman::post             38        38        0       0.0       1.0       0.132          5.0       
+data_generator           16        16        0       23.717    32.112    27.35          437.607   
+gather                   1         1         0       13.863    13.863    13.863         13.863    
+pegasus::dirmanager      1         1         0       2.162     2.162     2.162          2.162     
+pegasus::transfer        1         1         0       2.161     2.161     2.161          2.161     
+query_post               1         1         0       23.777    23.777    23.777         23.777    
+query_pre                16        16        0       22.833    23.453    23.094         369.502   
+query_processsing        1         1         0       301.031   301.031   301.031        301.031   
+
+
+# All (All)
+Transformation           Count     Succeeded Failed  Min       Max       Mean           Total     
+covar-spark              1         1         0       216.566   216.566   216.566        216.566   
+dagman::post             38        38        0       0.0       1.0       0.132          5.0       
+data_generator           16        16        0       23.717    32.112    27.35          437.607   
+gather                   1         1         0       13.863    13.863    13.863         13.863    
+pegasus::dirmanager      1         1         0       2.162     2.162     2.162          2.162     
+pegasus::transfer        1         1         0       2.161     2.161     2.161          2.161     
+query_post               1         1         0       23.777    23.777    23.777         23.777    
+query_pre                16        16        0       22.833    23.453    23.094         369.502   
+query_processsing        1         1         0       301.031   301.031   301.031        301.031   

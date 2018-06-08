@@ -1,0 +1,39 @@
+
+# Transformation - name of the transformation.
+# Count          - the number of times the invocations corresponding to
+#                  the transformation was executed.
+# Succeeded      - the count of the succeeded invocations corresponding
+#                  to the transformation.
+# Failed         - the count of the failed invocations corresponding to
+#                  the transformation.
+# Min(sec)       - the minimum invocation runtime value corresponding
+#                  to the transformation.
+# Max(sec)       - the maximum invocation runtime value corresponding
+#                  to the transformation.
+# Mean(sec)      - the mean of the invocation runtime corresponding
+#                  to the transformation.
+# Total(sec)     - the cumulative of invocation runtime corresponding
+#                  to the transformation.
+
+# 8ae587e8-1f8a-48bf-a8d0-2caf1a0d6ad8 (GenBase)
+Transformation           Count     Succeeded Failed  Min       Max       Mean           Total     
+covar-spark              1         1         0       21.559    21.559    21.559         21.559    
+dagman::post             7         7         0       0.0       1.0       0.143          1.0       
+data_generator           1         1         0       23.267    23.267    23.267         23.267    
+pegasus::dirmanager      1         1         0       3.188     3.188     3.188          3.188     
+pegasus::transfer        1         1         0       2.204     2.204     2.204          2.204     
+query_post               1         1         0       4.244     4.244     4.244          4.244     
+query_pre                1         1         0       21.082    21.082    21.082         21.082    
+query_processsing        1         1         0       217.762   217.762   217.762        217.762   
+
+
+# All (All)
+Transformation           Count     Succeeded Failed  Min       Max       Mean           Total     
+covar-spark              1         1         0       21.559    21.559    21.559         21.559    
+dagman::post             7         7         0       0.0       1.0       0.143          1.0       
+data_generator           1         1         0       23.267    23.267    23.267         23.267    
+pegasus::dirmanager      1         1         0       3.188     3.188     3.188          3.188     
+pegasus::transfer        1         1         0       2.204     2.204     2.204          2.204     
+query_post               1         1         0       4.244     4.244     4.244          4.244     
+query_pre                1         1         0       21.082    21.082    21.082         21.082    
+query_processsing        1         1         0       217.762   217.762   217.762        217.762   

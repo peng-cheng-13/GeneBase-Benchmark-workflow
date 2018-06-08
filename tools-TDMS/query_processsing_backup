@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+$HIVE_PATH -f loadscript.sql
+
+echo "--------Subsetting data--------"
+start_time=$(date +%s)
+echo "Start time: ${start_time}" >> testresult
+$HIVE_PATH -e "${hive_setup}drop table if exists geo_subset;drop table if exists expr_avgs;set hive.index.compact.file=/tmp/patientid_geo_index;create table geo_subset as select geo.* from patients join geo on (geo.patientid=patients.patientid) and patients.disease = 5;"
+
+echo "--------Normalize data--------"
+$HIVE_PATH -e "${hive_setup}set hive.index.compact.file=/tmp/geneid_geo_index;create table expr_avgs as select geneid, avg(expr_value) as avg_expr_value from geo_subset group by geneid;  select g.patientid, g.geneid, g.expr_value-y.avg_expr_value from geo_subset g join expr_avgs y on (g.geneid=y.geneid);" > "/BIGDATA/nsccgz_pcheng_1/tmp/GEO-$1-$2-covar.txt"
+end_time=$(date +%s)
+echo "Time for data management : subsetting and normalize : $(($end_time - $start_time))" >> testresult
+

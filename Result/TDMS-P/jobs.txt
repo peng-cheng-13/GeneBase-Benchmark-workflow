@@ -1,0 +1,65 @@
+
+# Job            - name of the job
+# Try            - number representing the job instance run count
+# Site           - site where the job ran
+# Kickstart      - actual duration of the job instance in seconds on the
+#                  remote compute node
+# Mult           - multiplier factor specified by the user
+# Kickstart-Mult - Kickstart time multiplied by the multiplier factor
+# CPU-Time       - remote cpu time computed as the stime + utime
+# Post           - postscript time as reported by DAGMan
+# CondorQTime    - time between submission by DAGMan and the remote Grid
+#                  submission. It is an estimate of the time spent in the
+#                  condor q on the submit node
+# Resource       - time between the remote Grid submission and start of
+#                  remote execution. It is an estimate of the time job
+#                  spent in the remote queue
+# Runtime        - time spent on the resource as seen by Condor DAGMan.
+#                  Is always >= Kickstart
+# Seqexec        - time taken for the completion of a clustered job
+# Seqexec-Delay  - time difference between the time for the completion
+#                  of a clustered job and sum of all the individual
+#                  tasks Kickstart time
+# Exitcode       - exitcode for this job
+# Hostname       - name of the host where the job ran, as reported by
+#                  Kickstart
+# ed5b2e83-1d65-444b-8834-a93c4403863c (GenBase)
+Job                             Try Site       Kickstart Mult Kickstart-Mult CPU-Time Post CondorQTime Resource Runtime Seqexec Seqexec-Delay Exitcode Hostname       
+create_dir_GenBase_0_condorpool 1   condorpool 2.176     1    2.176          0.138    0.0  16.0        -        2.0     -       -             0        cn17637-ens4   
+data_generator_ID0000014        1   condorpool 25.177    1    25.177         28.257   0.0  5.0         -        26.0    -       -             0        cn17637-ens4   
+data_generator_ID0000003        1   condorpool 25.658    1    25.658         28.731   0.0  5.0         -        26.0    -       -             0        cn17637-ens4   
+data_generator_ID0000013        1   condorpool 24.662    1    24.662         27.691   0.0  5.0         -        25.0    -       -             0        cn17647-ens4   
+data_generator_ID0000002        1   condorpool 26.311    1    26.311         29.356   0.0  5.0         -        27.0    -       -             0        cn17647-ens4   
+data_generator_ID0000012        1   condorpool 27.184    1    27.184         28.893   0.0  5.0         -        28.0    -       -             0        cn17645-ens4   
+data_generator_ID0000001        1   condorpool 24.274    1    24.274         27.441   0.0  20.0        -        25.0    -       -             0        cn17645-ens4   
+data_generator_ID0000011        1   condorpool 25.392    1    25.392         27.973   0.0  20.0        -        26.0    -       -             0        cn17660-enp5s0 
+data_generator_ID0000010        1   condorpool 24.691    1    24.691         27.23    0.0  20.0        -        25.0    -       -             0        cn17660-enp5s0 
+data_generator_ID0000009        1   condorpool 25.441    1    25.441         28.478   0.0  19.0        -        26.0    -       -             0        cn17651-ens4   
+data_generator_ID0000008        1   condorpool 25.167    1    25.167         28.168   0.0  19.0        -        26.0    -       -             0        cn17651-ens4   
+data_generator_ID0000007        1   condorpool 25.197    1    25.197         28.005   0.0  14.0        -        26.0    -       -             0        cn17648-enp5s0 
+data_generator_ID0000006        1   condorpool 24.931    1    24.931         27.738   0.0  13.0        -        25.0    -       -             0        cn17648-enp5s0 
+data_generator_ID0000016        1   condorpool 24.802    1    24.802         27.832   0.0  13.0        -        25.0    -       -             0        cn17636-enp5s0 
+data_generator_ID0000005        1   condorpool 25.727    1    25.727         28.814   0.0  13.0        -        26.0    -       -             0        cn17636-enp5s0 
+data_generator_ID0000015        1   condorpool 25.615    1    25.615         27.324   0.0  12.0        -        26.0    -       -             0        cn17653-ens4   
+data_generator_ID0000004        1   condorpool 25.423    1    25.423         28.469   0.0  7.0         -        26.0    -       -             0        cn17653-ens4   
+query_pre_ID0000029             1   condorpool 10.897    1    10.897         9.38     0.0  3.0         -        11.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000030             1   condorpool 11.383    1    11.383         10.005   0.0  3.0         -        11.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000019             1   condorpool 11.282    1    11.282         9.892    0.0  13.0        -        11.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000018             1   condorpool 10.998    1    10.998         9.565    0.0  13.0        -        12.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000028             1   condorpool 10.344    1    10.344         9.107    1.0  25.0        -        10.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000017             1   condorpool 10.265    1    10.265         9.037    1.0  5.0         -        10.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000023             1   condorpool 10.115    1    10.115         8.965    0.0  15.0        -        11.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000026             1   condorpool 11.214    1    11.214         9.907    0.0  14.0        -        12.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000031             1   condorpool 10.797    1    10.797         9.63     0.0  25.0        -        11.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000032             1   condorpool 10.059    1    10.059         9.077    0.0  26.0        -        10.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000027             1   condorpool 10.465    1    10.465         9.216    0.0  31.0        -        11.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000020             1   condorpool 10.309    1    10.309         9.113    0.0  31.0        -        11.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000021             1   condorpool 10.278    1    10.278         8.973    0.0  42.0        -        10.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000022             1   condorpool 10.401    1    10.401         9.133    0.0  42.0        -        11.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000024             1   condorpool 9.894     1    9.894          8.874    1.0  52.0        -        10.0    -       -             0        cn17634-enp5s0 
+query_pre_ID0000025             1   condorpool 10.081    1    10.081         9.127    1.0  48.0        -        11.0    -       -             0        cn17634-enp5s0 
+gather_ID0000033                1   condorpool 14.788    1    14.788         34.835   0.0  19.0        -        15.0    -       -             0        cn17634-enp5s0 
+query_processsing_ID0000034     1   condorpool 292.609   1    292.609        164.2    0.0  0.0         -        293.0   -       -             0        cn17635-ens4   
+query_post_ID0000035            1   condorpool 23.876    1    23.876         6.226    1.0  16.0        -        24.0    -       -             0        cn17637-ens4   
+covar-spark_ID0000036           1   condorpool 203.511   1    203.511        48.399   0.0  2.0         -        204.0   -       -             0        cn17637-ens4   
+stage_out_remote_condorpool_5_0 1   condorpool 2.205     1    2.205          0.141    0.0  0.0         -        3.0     -       -             0        cn17637-ens4   

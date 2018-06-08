@@ -1,0 +1,6 @@
+#!/bin/bash
+g++ -std=c++11 data_generator.cc -I/usr/software/java/jdk1.8.0_121/include/ -I/usr/software/java/jdk1.8.0_121/include/linux -o data_generator
+g++ -std=c++11 gather.cc  -I/usr/software/java/jdk1.8.0_121/include/ -I/usr/software/java/jdk1.8.0_121/include/linux -o gdata
+
+
+

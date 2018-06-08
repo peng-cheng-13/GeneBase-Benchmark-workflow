@@ -1,0 +1,43 @@
+
+# Job instance statistics per day:
+#   the number of job instances run, total runtime sorted by day
+# Invocation statistics per day:
+#   the number of invocations , total runtime sorted by day
+# Job instance statistics by host per day:
+#   the number of job instance run, total runtime on each host sorted by day
+# Invocation by host per day:
+#   the number of invocations, total runtime on each host sorted by day
+
+# Job instances statistics per day
+Date[YYYY-MM-DD]              Count               Runtime (sec)       
+2018-06-08                    38                  1128.0              
+
+# Invocation statistics run per day
+Date[YYYY-MM-DD]              Count               Runtime (sec)       
+2018-06-08                    76                  1118.599            
+
+# Job instances statistics on host per day
+Date[YYYY-MM-DD]       Host                     Count     Runtime (sec)       
+2018-06-08             cn17634-enp5s0           17        188.0               
+2018-06-08             cn17635-ens4             1         293.0               
+2018-06-08             cn17636-enp5s0           2         51.0                
+2018-06-08             cn17637-ens4             6         285.0               
+2018-06-08             cn17645-ens4             2         53.0                
+2018-06-08             cn17647-ens4             2         52.0                
+2018-06-08             cn17648-enp5s0           2         51.0                
+2018-06-08             cn17651-ens4             2         52.0                
+2018-06-08             cn17653-ens4             2         52.0                
+2018-06-08             cn17660-enp5s0           2         51.0                
+
+# Invocation statistics on host per day
+Date[YYYY-MM-DD]       Host                     Count     Runtime (sec)       
+2018-06-08             cn17634-enp5s0           34        187.57              
+2018-06-08             cn17635-ens4             2         292.609             
+2018-06-08             cn17636-enp5s0           4         50.529              
+2018-06-08             cn17637-ens4             12        283.603             
+2018-06-08             cn17645-ens4             4         51.458              
+2018-06-08             cn17647-ens4             4         50.973              
+2018-06-08             cn17648-enp5s0           4         50.128              
+2018-06-08             cn17651-ens4             4         50.608              
+2018-06-08             cn17653-ens4             4         51.038              
+2018-06-08             cn17660-enp5s0           4         50.083              
